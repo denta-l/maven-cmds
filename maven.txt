@@ -1,0 +1,81 @@
+Maven Set up
+
+1. download apache maven
+2. add the path to environment variable /MAVEN_HOME/
+3. add bin directory to system path  
+
+check if set is success
+-----------------------
+cmd prompt
+mvn --version
+
+
+create maven project from cmd
+-----------------------------
+...go to eclipse folder
+enter mvn archetype:generate and enter and follow on screen interactive mode
+mvn archetype:generate -DgroupId=testmaven -DartifactId=Mavenjava -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4
+
+
+...go to project created folder
+mvn eclipse:eclips
+
+
+excecuting on cmd
+----------------------
+folder should point to pom.xml file
+mvn clean
+mvn compile
+mvn test
+
+
+to run a single test class
+-------------------------
+mvn -Dtest=AutoLoanApplicationTest test
+ref: https://maven.apache.org/surefire/maven-surefire-plugin/examples/single-test.html
+
+executing with profiles
+----------------------
+mvn test -PSmoke
+mvn test -PRegression
+-Dsurefire.suiteXmlFiles=smoke.xml
+
+<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.3</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>3.0.0-M4</version>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>src/test/resources/smoke.xml</suiteXmlFile>
+						<suiteXmlFile>src/test/resources/homepage_module.xml</suiteXmlFile>
+					</suiteXmlFiles>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+
+
+
+
+
+run test from cmd
+------------------
+Use: System.getProperty() to parametirize browser name for maven
+
+String browserName = System.getProperty("browser");
+mvn test -Dbrowser=firefox
